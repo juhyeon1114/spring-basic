@@ -13,15 +13,7 @@ import java.util.Arrays;
 public class SpringBasicApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(SpringBasicApplication.class, args);
-		MemberService memberService = new MemberServiceImpl();
-		Member member = new Member(1L, "memberA", Grade.VIP);
-		memberService.join(member);
-
-		Member foundMember = memberService.findMember(1L);
-		System.out.println("new member = " + member.getName());
-		System.out.println("find Member = " + foundMember.getName());
-
+		SpringApplication.run(SpringBasicApplication.class, args);
 	}
 
 }

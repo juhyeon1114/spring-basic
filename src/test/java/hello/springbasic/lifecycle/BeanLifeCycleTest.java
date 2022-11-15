@@ -24,7 +24,14 @@ public class BeanLifeCycleTest {
          * Class에 close() 또는 shutdown()을 찾아서 종료 메소드로 사용한다.
          * destroyMethod를 ""으로 설정하면 추론기능이 동작하지 않는다.
          */
-        @Bean(initMethod = "init", destroyMethod = "close")
+//        @Bean(initMethod = "init", destroyMethod = "close")
+//        public NetworkClient networkClient() {
+//            NetworkClient nc = new NetworkClient();
+//            nc.setUrl("https://hello.com");
+//            return nc;
+//        }
+
+        @Bean()
         public NetworkClient networkClient() {
             NetworkClient nc = new NetworkClient();
             nc.setUrl("https://hello.com");

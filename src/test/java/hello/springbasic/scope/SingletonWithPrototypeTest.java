@@ -2,6 +2,7 @@ package hello.springbasic.scope;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -28,19 +29,24 @@ public class SingletonWithPrototypeTest {
     public void singletonClientUsePrototype() {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
 
+        ClientBean bean1 = ac.getBean(ClientBean.class);
+        int count1 = bean1.logic();
+        Assertions.assertThat(count1).isEqualTo(1);
 
+        ClientBean bean2 = ac.getBean(ClientBean.class);
+        int count2 = bean2.logic();
+        Assertions.assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;
 
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> provider;
 
         public int logic() {
+            // .getObject()가 호출되면, 스프링 컨테이너에서 해당 빈(PrototypeBean)을 찾아서 return -> Dependency Lookup (DL)
+            PrototypeBean  prototypeBean = provider.getObject();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
